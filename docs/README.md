@@ -20,7 +20,7 @@ POST https://{{workspace}}--{{accountName}}.myvtex.com/_v/massive/collection/rem
 ## Curl
 
 ```shell
-curl --location --request PUT 'https://{{workspace}}--{{accountName}}.myvtex.com/_v/massive/stock/add' \
+curl --location --request PUT 'https://{{workspace}}--{{accountName}}.myvtex.com/_v/massive/collection/add' \
 --header 'VtexIdClientAutCookie: "" \
 --header 'Content-Type: application/json' \
 --data-raw '[
