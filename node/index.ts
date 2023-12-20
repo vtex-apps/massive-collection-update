@@ -2,17 +2,14 @@ import type { ClientsConfig, ServiceContext, RecorderState } from '@vtex/api'
 import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
-import { status } from './middlewares/status'
-import { validate } from './middlewares/validate'
+import { addItemMiddleware } from './middlewares/addItemMiddleware'
+import { removeItemMiddleware } from './middlewares/removeItemMiddleware'
+import { auth } from './middlewares/validateMiddleware'
 
-const TIMEOUT_MS = 800
+const TIMEOUT_MS = 600000
 
 // Create a LRU memory cache for the Status client.
-// The 'max' parameter sets the size of the cache.
 // The @vtex/api HttpClient respects Cache-Control headers and uses the provided cache.
-// Note that the response from the API being called must include an 'etag' header
-// or a 'cache-control' header with a 'max-age' value. If neither exist, the response will not be cached.
-// To force responses to be cached, consider adding the `forceMaxAge` option to your client methods.
 const memoryCache = new LRUCache<string, any>({ max: 5000 })
 
 metrics.trackCache('status', memoryCache)
@@ -24,7 +21,7 @@ const clients: ClientsConfig<Clients> = {
   options: {
     // All IO Clients will be initialized with these options, unless otherwise specified.
     default: {
-      retries: 2,
+      // retries: 2,
       timeout: TIMEOUT_MS,
     },
     // This key will be merged with the default options and add this cache to our Status client.
@@ -40,17 +37,24 @@ declare global {
 
   // The shape of our State object found in `ctx.state`. This is used as state bag to communicate between middlewares.
   interface State extends RecorderState {
-    code: number
+    validatedBody: UpdateRequest[],
+    userProfile?: UserProfile,
+    // Added in the state via auth middleware when request has appkey and apptoken.
+    appkey?: string
   }
 }
+
 
 // Export a service that defines route handlers and client options.
 export default new Service({
   clients,
   routes: {
     // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    status: method({
-      GET: [validate, status],
+    addItem: method({
+      POST: [ auth, addItemMiddleware],
+    }),
+    removeItem: method({
+      POST: [auth, removeItemMiddleware],
     }),
   },
 })

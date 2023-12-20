@@ -1,13 +1,17 @@
 {
   "memory": 256,
   "ttl": 10,
-  "timeout": 2,
-  "minReplicas": 2,
-  "maxReplicas": 4,
-  "workers": 1,
+  "timeout": 600,
+  "minReplicas": 10,
+  "maxReplicas": 20,
+  "workers": 2,
   "routes": {
-    "status": {
-      "path": "/_v/status/:code",
+    "addItem": {
+      "path": "/_v/massive/collection/add",
+      "public": true
+    },
+    "removeItem": {
+      "path": "/_v/massive/collection/remove",
       "public": true
     }
   }

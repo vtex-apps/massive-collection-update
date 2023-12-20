@@ -1,10 +1,18 @@
-import { IOClients } from '@vtex/api'
+import { IOClients, Sphinx } from '@vtex/api'
 
-import Status from './status'
+import collectionClient from './collectionClient'
+import { VtexId } from './vtexId'
 
-// Extend the default IOClients implementation with our own custom clients.
 export class Clients extends IOClients {
-  public get status() {
-    return this.getOrSet('status', Status)
+  public get collectionClient() {
+    return this.getOrSet('collectionClient', collectionClient)
+  }
+
+  public get vtexId() {
+    return this.getOrSet('vtexId', VtexId)
+  }
+
+  public get sphinx() {
+    return this.getOrSet('sphinx', Sphinx)
   }
 }
