@@ -71,7 +71,7 @@ curl --location --request PUT 'https://{{workspace}}--{{accountName}}.myvtex.com
       {
         "sku": 12,
         "success": true,
-        "warehouseId": 47
+        "subCollectionId": 47
       }
     ],
     "quantity": 1
