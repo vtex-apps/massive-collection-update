@@ -1,7 +1,7 @@
 {
   "name": "massive-collection-update",
   "vendor": "vtex",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "title": "Massive collection update",
   "description": "Massive collection update. Developed by @FBenitez97 on GH. @Paco on slack. Magical touch by @Edyespinal on GH",
   "mustUpdateAt": "2023-12-20",
